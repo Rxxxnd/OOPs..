@@ -1,16 +1,21 @@
 #include <iostream>
 
+#define delimiter "\n---------------------------------------\n"
+//#define STRUCT_POINT
+//#define DISTANCE_CHECK
+//#define CONSTRUCTORS_CHECK
+
 class Point
 {              //members of class
 	double x;
 	double y;
 
-public:                  
-//   GET/SET methods (functions for members of class)
+public:
+	//   GET/SET methods (functions for members of class)
 
 	double get_x()const // MUST BE cosntant [!]
-	{						  
-		return x;			  
+	{
+		return x;
 	}
 	void set_x(double x) // must be 'void' 
 	{
@@ -24,8 +29,54 @@ public:
 	{
 		this->y = y;
 	}
-	//------------- homework starts here ----------------
-	double distance(Point A, Point B)
+// ======================== Constructors =================================
+	/*
+	Point()
+	{
+		x = y = double(); // type() - default value for the given type;
+						  // "calling" the default constructor
+		std::cout << "Default Constructor:\t" << this << std::endl;
+	}
+	//========================================================================
+	Point(double x)
+	{
+		this->x = x;
+		this->y = 0;
+		std::cout << "Single-Argument Constructor:\t " << this << std::endl;
+	}
+	*/
+//========================================================================
+	Point(double x = 0, double y = 0) // 'universal' constructor
+	{
+		this->x = x;
+		this->y = y;
+		std::cout << "Constructor:\t" << this << std::endl;
+	}
+//========================================================================
+	Point(const Point& other)
+	{
+		this->x = other.x;
+		this->y = other.y;
+		std::cout << "Copy constructor:" << this << std::endl;
+	}
+
+	~Point()
+	{
+		std::cout << "Destructor:  \t" << this << std::endl;
+	}
+	
+	//---------------- Operators ----------------- 
+    Point& operator=(const Point& other)
+	{
+		this->x = other.x;
+		this->y = other.y;
+		std::cout << "Copy Assignment:\t" << this << std::endl;
+		return *this;
+	}
+
+//-------------------- Methods ----------------------
+
+	double distance(Point& A, Point& B)const
 	{
 		// pow(base, exponent); 
 		// base - base number;
@@ -46,8 +97,8 @@ public:
 		std::cout << "X = " << x << "\tY = " << y << std::endl;
 	}
 };
- // ------------- function -----------------------
-double distance(Point A, Point B)
+ //---------------- function ------------------------
+double distance(const Point& A, const Point& B)
 {
 	double x_distance = A.get_x() - B.get_x();
 	double y_distance = A.get_y() - B.get_y();
@@ -55,11 +106,10 @@ double distance(Point A, Point B)
 	return sqrt(x_distance * x_distance + y_distance * y_distance);
 }
 
-//define STRUCT_POINT
-//#define DISTANCE_CHECK
 
 void main()
 {
+
 #ifdef STRUCK_POINT
 	int a;
 	Pont A;
@@ -70,8 +120,7 @@ void main()
 	Point* pA = &A;
 	std::pA->x << "\t" << pA->y << std::endl;
 
-#endif
-
+#endif //STRUC_POINT
 #ifdef DISTANCE_CHECK
 	Point A;      // 'Point' - user's type,  'A' - object;  
 	A.set_x(2);   // init of A.x   
@@ -82,15 +131,47 @@ void main()
 	B.set_x(7);
 	B.set_y(8);
 	std::cout << "B:\t" << B.get_x() << "\t" << B.get_y() << std::endl;
-
 	//std::cout << "Distance between points 'A' and 'B' is: \t " << A.distance(B) << std::endl;
 	//std::cout << "Distance between points 'B' and 'A' is: \t " << B.distance(A) << std::endl;
-	std::cout << " --------------------------------------- " << std::endl;
+	std::cout << delimiter << std::endl;
 	std::cout << "Distance between points 'A' and 'B' is: \t " << distance(A, B) << std::endl;
+	std::cout << delimiter << std::endl;
 	std::cout << "Distance between points 'B' and 'A' is: \t " << distance(B, A) << std::endl;
 #endif // DISTANCE_CHECK
+#ifdef CONSTRUCTORS_CHECK
 	Point A;
 	A.print();
+
+	Point B = 5;  // Single-argumenr constructor;
+	B.print();
+
+	Point C(2, 3);
+	
+	C.print();
+
+	Point D = C; //Copy constructor
+	D.print();
+
+	Point E;
+	E = D;       //Copy assignment
+	E.print();
+
+#endif//CONSTRUCTIONS_CHECK
+
+	int a, b, c;
+	a = b = c = 0;
+	std::cout << a << "\t" << b << "\t" << c << "\t" << std::endl;
+	std::cout << delimiter;
+
+	Point A, B, C;
+
+	A = B = C = Point(2, 3);
+
+	A.print();
+	B.print();
+	C.print();
+
 }
-// at this point cout:   X = -9.25596e+61        Y = -9.25596e+61
+
+
 
