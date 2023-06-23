@@ -4,6 +4,8 @@
 //#define STRUCT_POINT
 //#define DISTANCE_CHECK
 //#define CONSTRUCTORS_CHECK
+//#define ASSIGNMENT_CHECK
+//#define INCREMENT_CHECK
 
 class Point
 {              //members of class
@@ -21,6 +23,7 @@ public:
 	{
 		this->x = x;
 	}
+
 	double get_y()const
 	{
 		return y;
@@ -73,6 +76,62 @@ public:
 		std::cout << "Copy Assignment:\t" << this << std::endl;
 		return *this;
 	}
+	Point& operator++() //Prefix increment
+	{
+		x++;
+		y++;
+		return *this;
+	}
+	Point operator++(int)
+	{
+		Point old = *this; //saving initial value of object;
+		x++;
+		y++;
+		return old;
+	}
+	Point& operator--()
+	{
+		x--;
+		y--;
+		return *this;
+	}
+	Point operator--(int)
+	{
+		Point old = *this;
+		x--;
+		y--;
+		return old;
+	}
+	Point& operator+=(const Point& other)
+	{
+		this->x += other.x;
+		this->y += other.y;
+		return *this;
+	}
+	Point& operator-=(const Point& other)
+	{
+		this->x -= other.x;
+		this->y -= other.y;
+		return *this;
+	}
+	Point& operator *=(const Point& other)
+	{
+		this->x *= other.x;
+		this->y *= other.y;
+		return *this;
+	}
+	Point& operator /=(const Point& other)
+	{
+		this->x /= other.x;
+		this->y /= other.x;
+		return *this;
+	}
+	/*Point& operator %=(const Point& other)  //  %= works with int.  
+	{ 
+		this->x %= other.x;
+		this->y %= other.y;
+		return *this;
+	}*/
 
 //-------------------- Methods ----------------------
 
@@ -97,7 +156,14 @@ public:
 		std::cout << "X = " << x << "\tY = " << y << std::endl;
 	}
 };
- //---------------- function ------------------------
+
+std::ostream& operator<<(std::ostream& os, const Point& obj)
+{
+	return os << "X = " << obj.get_x() << "\tY = " << obj.get_y();
+	
+}
+
+//---------------- function ------------------------
 double distance(const Point& A, const Point& B)
 {
 	double x_distance = A.get_x() - B.get_x();
@@ -106,10 +172,51 @@ double distance(const Point& A, const Point& B)
 	return sqrt(x_distance * x_distance + y_distance * y_distance);
 }
 
+Point operator+(const Point& left, const Point& right)
+{
+	/*
+	Point result;
+	result.set_x(left.get_x() + right.get_x());
+	result.set_y(left.get_y() + right.get_y());
+	*/
+
+	/*
+	Point result(left.get_x() + right.get_x(), left.get_y() + right.get_y());
+	return result;
+	*/
+	return Point
+	(
+		left.get_x() + right.get_x(),
+		left.get_y() + right.get_y()
+	);
+}
+Point operator-(const Point& left, const Point& right)
+{
+	return Point
+	(
+		left.get_x() - right.get_x(),
+		left.get_y() - right.get_y()
+	);
+}
+Point operator*(const Point& left, const Point& right)
+{
+	return Point
+	(
+		left.get_x() * right.get_x(),
+		left.get_y() * right.get_y()
+	);
+}
+Point operator/(const Point& left, const Point& right)
+{
+	return Point
+	(
+		left.get_x() / right.get_x(),
+		left.get_y() / right.get_y()
+	);
+}
 
 void main()
 {
-
 #ifdef STRUCK_POINT
 	int a;
 	Pont A;
@@ -156,8 +263,8 @@ void main()
 	E = D;       //Copy assignment
 	E.print();
 
-#endif//CONSTRUCTIONS_CHECK
-
+#endif //CONSTRUCTIONS_CHECK
+#ifdef ASSIGNMENT_CHECK
 	int a, b, c;
 	a = b = c = 0;
 	std::cout << a << "\t" << b << "\t" << c << "\t" << std::endl;
@@ -170,6 +277,38 @@ void main()
 	A.print();
 	B.print();
 	C.print();
+#endif //ASSIGNMENT_CHECK
+#ifdef INCREMENT_CHECK
+
+	int a = 2;
+	int b = 3;
+	int c = a + b;
+	std::cout << c << std::endl;
+
+	Point A(2, 3);
+	Point B(7, 8);
+	Point C = A + B;
+	C.print();
+
+	++A;
+	A.print();
+
+	
+
+#endif //INCREMENT_CHECK
+
+
+	Point A(2, 3);
+	A.print();
+
+	Point B(7, 8);
+	B.print();
+
+	A += B;
+	//A.print();
+	std::cout << A << std::endl;
+
+
 
 }
 
