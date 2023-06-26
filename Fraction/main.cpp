@@ -1,10 +1,10 @@
-#include <iostream>
+п»ї#include <iostream>
 
 class Fraction
 {
-	int integer;  //целое
-	int numerator; //числитель
-	int denominator; //знаминатель
+	int integer; 
+	int numerator; 
+	int denominator; 
 
 public:
 	int get_integer()const
@@ -36,7 +36,7 @@ public:
 
 	//		 constructors:
 
-	Fraction() // no param
+	Fraction() // default constructor 
 	{
 		this->integer = 0;
 		this->numerator = 0;
