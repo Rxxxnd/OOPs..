@@ -48,14 +48,14 @@ public:
 		this->integer = integer;
 		this->numerator = 0;
 		this->denominator = 1;
-		std::cout << "Single-arg constructor: " << std::endl;
+		std::cout << "Single-arg constructor: "<< this << std::endl;
 	}
 	Fraction(int numerator, int denominator)
 	{
 		this->integer = 0;
 		this->numerator = numerator;
 		set_denominator(denominator);
-		std::cout << "Constructor:\t" << std::endl;
+		std::cout << "Constructor:\t" << this << std::endl;
 	}
 
 	Fraction(int integer, int numerator, int denominator)
@@ -101,9 +101,24 @@ public:
 		else if (integer == 0) std::cout << 0;
 		std::cout << std::endl;
 	}
+	//===============================================================================
+	// не решение, просто мысли
+	Fraction& proper_fraction()                        
+	{
+		this->integer = this->numerator % this->denominator;
+		this->numerator = this->numerator - this->integer * this->denominator;
+		return *this;
+	}  
+	//тоже не решение, только мысли
+	Fraction& improp_fraction()                        
+	{
+		this->numerator = this->integer * this->denominator + this->numerator;
+		return *this;
+	}
+	//================================================================================
 };
 
-//#define CONSTRUCTORS_CHECK;
+#define CONSTRUCTORS_CHECK
 
 void main()
 {
@@ -125,7 +140,7 @@ void main()
 	Fraction  E = C; //copy constructor
 	E.print();
 
-	Fraction F;
+	Fraction F; //assingment operator
 	F = D;
 	F.print();
 	#endif// Constructors check
