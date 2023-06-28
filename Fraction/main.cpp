@@ -106,9 +106,9 @@ public:
 	Fraction& proper_fraction()                        
 	{
 		this->integer = this->numerator % this->denominator;
-		this->numerator = this->numerator - this->integer * this->denominator;
+		this->numerator = this->numerator - (this->integer * this->denominator);
 		return *this;
-	}  
+	} 
 	//тоже не решение, только мысли
 	Fraction& improp_fraction()                        
 	{
@@ -118,7 +118,7 @@ public:
 	//================================================================================
 };
 
-#define CONSTRUCTORS_CHECK
+//#define CONSTRUCTORS_CHECK
 
 void main()
 {
