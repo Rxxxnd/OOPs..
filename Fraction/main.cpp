@@ -2,6 +2,7 @@
 
 class Fraction;
 Fraction operator*(Fraction left, Fraction right);
+Fraction operator / (const Fraction& left, const Fraction& right);
 
 class Fraction
 {
@@ -79,7 +80,7 @@ public:
 	}
 
 //========= operators ===========
-	Fraction&operator=(const Fraction& other)
+	Fraction& operator = (const Fraction& other)
 	{
 		this->integer = other.integer;
 		this->numerator = other.numerator;
@@ -87,11 +88,47 @@ public:
 		std::cout << "CopyAssignment:" << this << std::endl;
 		return *this;
 	}
-
 	Fraction& operator *= (Fraction& other)
 	{
 		return *this = *this *other;
 	}
+	Fraction& operator/=(const Fraction& other)
+	{
+		return *this = *this / other;
+	}
+	Fraction& operator += (const Fraction& other)
+	{
+		this->integer += other.integer;
+		return *this;
+	}
+	Fraction& operator -= (const Fraction& other)
+	{
+		this->integer -= other.integer;
+		return *this;
+	}
+	Fraction& operator ++() //pref++;
+	{
+		integer++;
+		return*this;
+	}
+	Fraction operator ++(int) //post--;
+	{
+		Fraction old = *this;
+		integer++;
+		return old;
+	}
+	Fraction& operator --() // pref--;
+	{
+		--integer;
+		return *this;
+	}
+	Fraction operator --(int) // post++;
+	{
+		Fraction old = *this;
+		integer--;
+		return old;
+	}
+
 //========== methods ============
 
 	void print()const
@@ -127,7 +164,7 @@ public:
 	}
 };
 
-Fraction operator*(Fraction left, Fraction right)
+Fraction operator * (Fraction left, Fraction right)
 {
 	left.to_improper();
 	right.to_improper();						
@@ -147,11 +184,24 @@ Fraction operator*(Fraction left, Fraction right)
 //		left.get_denominator() * right.get_numerator()
 //	).to_proper();
 //}
-Fraction operator/(const Fraction& left, const Fraction& right)
+Fraction operator / (const Fraction& left, const Fraction& right)
 {
 	return left * right.inverted();
 }
-
+Fraction operator + (const Fraction& left, const Fraction& right)
+{
+	return Fraction
+	(
+		left.get_integer() + right.get_integer()
+	);
+}
+Fraction operator - (const Fraction& left, const Fraction& right)
+{
+	return Fraction
+	(
+		left.get_integer() - right.get_integer()
+	);
+}
 
 //#define CONSTRUCTORS_CHECK
 
