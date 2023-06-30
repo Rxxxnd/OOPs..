@@ -3,6 +3,9 @@
 class Fraction;
 Fraction operator*(Fraction left, Fraction right);
 Fraction operator / (const Fraction& left, const Fraction& right);
+Fraction operator + (const Fraction& left, const Fraction& right);
+Fraction operator - (const Fraction& left, const Fraction& right);
+
 
 class Fraction
 {
