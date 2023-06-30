@@ -90,7 +90,8 @@ public:
 	}
 	Fraction& operator *= (Fraction& other)
 	{
-		return *this = *this *other;
+		return *this = *this * other;
+
 	}
 	Fraction& operator /= (const Fraction& other)
 	{
@@ -99,33 +100,45 @@ public:
 	Fraction& operator += (const Fraction& other)
 	{
 		this->integer += other.integer;
+		this->numerator += other.numerator;
+		this->denominator += other.denominator;
 		return *this;
 	}
 	Fraction& operator -= (const Fraction& other)
 	{
 		this->integer -= other.integer;
+		this->numerator -= other.numerator;
+		this->denominator -= other.denominator;
 		return *this;
 	}
 	Fraction& operator ++ () //pref++;
 	{
 		integer++;
+		numerator++;
+		denominator++;
 		return*this;
 	}
 	Fraction operator ++ (int) //post--;
 	{
 		Fraction old = *this;
 		integer++;
+		numerator++;
+		denominator++;
 		return old;
 	}
 	Fraction& operator -- () // pref--;
 	{
 		--integer;
+		--numerator;
+		--denominator;
 		return *this;
 	}
 	Fraction operator -- (int) // post++;
 	{
 		Fraction old = *this;
 		integer--;
+		numerator--;
+		denominator--;
 		return old;
 	}
 
@@ -192,14 +205,18 @@ Fraction operator + (const Fraction& left, const Fraction& right)
 {
 	return Fraction
 	(
-		left.get_integer() + right.get_integer()
+		left.get_integer() + right.get_integer(),
+		left.get_numerator() + right.get_numerator(),
+		left.get_denominator() + right.get_denominator()
 	);
 }
 Fraction operator - (const Fraction& left, const Fraction& right)
 {
 	return Fraction
 	(
-		left.get_integer() - right.get_integer()
+		left.get_integer() - right.get_integer(),
+		left.get_numerator() - right.get_numerator(),
+		left.get_denominator() - right.get_denominator()
 	);
 }
 
