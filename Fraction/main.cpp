@@ -36,7 +36,7 @@ public:
 		this->denominator = denominator;
 	}
 
-//		 constructors:
+//======== constructors =========
 
 	Fraction() // default constructor 
 	{
@@ -78,7 +78,7 @@ public:
 		std::cout << "Destructor:\t" << this << std::endl;
 	}
 
-//	       operators:
+//========= operators ===========
 	Fraction&operator=(const Fraction& other)
 	{
 		this->integer = other.integer;
@@ -92,7 +92,7 @@ public:
 	{
 		return *this = *this *other;
 	}
-//          methods:
+//========== methods ============
 
 	void print()const
 	{
