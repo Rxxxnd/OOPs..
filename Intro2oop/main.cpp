@@ -132,7 +132,7 @@ public:
 		this->y %= other.y;
 		return *this;
 	}*/
-
+	
 //-------------------- Methods ----------------------
 
 	double distance(Point& A, Point& B)const

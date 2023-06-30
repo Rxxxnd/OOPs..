@@ -1,5 +1,8 @@
 ﻿#include <iostream>
 
+class Fraction;
+Fraction operator*(Fraction left, Fraction right);
+
 class Fraction
 {
 	int integer; 
@@ -19,7 +22,6 @@ public:
 	{
 		return denominator;
 	}
-
 	void set_integer(int integer)
 	{
 		this->integer = integer;
@@ -34,7 +36,7 @@ public:
 		this->denominator = denominator;
 	}
 
-	//		 constructors:
+//		 constructors:
 
 	Fraction() // default constructor 
 	{
@@ -57,7 +59,6 @@ public:
 		set_denominator(denominator);
 		std::cout << "Constructor:\t" << this << std::endl;
 	}
-
 	Fraction(int integer, int numerator, int denominator)
 	{
 		this->integer = integer;
@@ -77,7 +78,7 @@ public:
 		std::cout << "Destructor:\t" << this << std::endl;
 	}
 
-	//	       operators:
+//	       operators:
 	Fraction&operator=(const Fraction& other)
 	{
 		this->integer = other.integer;
@@ -87,7 +88,11 @@ public:
 		return *this;
 	}
 
-	//          methods:
+	Fraction& operator *= (Fraction& other)
+	{
+		return *this = *this *other;
+	}
+//          methods:
 
 	void print()const
 	{
@@ -101,22 +106,71 @@ public:
 		else if (integer == 0) std::cout << 0;
 		std::cout << std::endl;
 	}
-	//===============================================================================
-	// не решение, просто мысли
-	/*proper_fraction                       
+//===============================================================================
+	//// не решение, просто мысли
+	// Fraction& proper_fraction()                       
+	//{
+	//	if(numerator > denominator)
+	//	{
+	//	this->integer = this->numerator % this->denominator;
+	//	this->numerator = this->numerator - (this->integer * this->denominator);
+	//	}
+	//	return this;
+	//} 
+	////тоже не решение, только мысли
+	//Fraction& improp_fraction()                       
+	//{
+	//	this->numerator = this->integer * this->denominator + this->numerator;
+	//	return this;
+	//}
+//================================================================================
+
+	Fraction& to_improper()
 	{
-		this->integer = this->numerator % this->denominator;
-		this->numerator = this->numerator - (this->integer * this->denominator);
-		return this;
-	} */
-	//тоже не решение, только мысли
-	/*improp_fraction                       
+		numerator += integer * denominator;
+		integer = 0;
+		return *this;
+	}
+	Fraction& to_proper()
 	{
-		this->numerator = this->integer * this->denominator + this->numerator;
-		return this;
-	}*/
-	//================================================================================
+		integer += numerator / denominator;
+		numerator %= denominator;
+		return *this;
+	}
+	Fraction inverted()const
+	{
+		Fraction inverted = *this;
+		inverted.to_improper();
+		std::swap(inverted.numerator, inverted.denominator);
+		return inverted;
+	}
 };
+
+Fraction operator*(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();						
+	return Fraction
+	(
+		left.get_numerator() * right.get_numerator(),
+		left.get_denominator() * right.get_denominator()
+	).to_proper();
+}
+//Fraction operator/(Fraction left, Fraction right)
+//{
+//	left.to_improper();
+//	right.to_improper();
+//	return Fraction
+//	(
+//		left.get_numerator() * right.get_denominator(),
+//		left.get_denominator() * right.get_numerator()
+//	).to_proper();
+//}
+Fraction operator/(const Fraction& left, const Fraction& right)
+{
+	return left * right.inverted();
+}
+
 
 //#define CONSTRUCTORS_CHECK
 
@@ -145,6 +199,18 @@ void main()
 	F.print();
 	#endif// Constructors check
 
+	Fraction A(2, 3, 4);
+	A.print();
 
+	Fraction B(3, 4, 5);
+	B.print();
+
+	//Fraction C = A * B;
+	//C.print();
+
+	//Fraction D = A / B;
+	//D.print();
+	A *= B;
+	A.print();
 
 }
