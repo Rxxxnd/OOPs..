@@ -106,25 +106,6 @@ public:
 		else if (integer == 0) std::cout << 0;
 		std::cout << std::endl;
 	}
-//===============================================================================
-	//// не решение, просто мысли
-	// Fraction& proper_fraction()                       
-	//{
-	//	if(numerator > denominator)
-	//	{
-	//	this->integer = this->numerator % this->denominator;
-	//	this->numerator = this->numerator - (this->integer * this->denominator);
-	//	}
-	//	return this;
-	//} 
-	////тоже не решение, только мысли
-	//Fraction& improp_fraction()                       
-	//{
-	//	this->numerator = this->integer * this->denominator + this->numerator;
-	//	return this;
-	//}
-//================================================================================
-
 	Fraction& to_improper()
 	{
 		numerator += integer * denominator;
