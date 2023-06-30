@@ -186,7 +186,7 @@ public:
 		int more, less, rest;
 		if (numerator > denominator) more = numerator, less = denominator;
 		else less = numerator, more = denominator;*/
-		to_proper();
+		to_proper(); // more efficient method;
 		int less = numerator;
 		int more = denominator;
 		int rest;
@@ -213,7 +213,7 @@ Fraction operator * (Fraction left, Fraction right)
 	(
 		left.get_numerator() * right.get_numerator(),
 		left.get_denominator() * right.get_denominator()
-	).to_proper();
+	).to_proper().reduce();
 }
 //Fraction operator/(Fraction left, Fraction right)
 //{
@@ -284,7 +284,7 @@ bool operator <= (const Fraction& left, const Fraction& right)
 }
 
 //#define CONSTRUCTORS_CHECK
-//#define ARITHMETICAL_OPERATORS_CHECK
+#define ARITHMETICAL_OPERATORS_CHECK
 //#define COMPARISON_OPERATORS_CHECK
 //#define REDUCING_CHECK
 
@@ -316,7 +316,7 @@ void main()
 	Fraction A(2, 3, 4);
 	A.print();
 
-	Fraction B(3, 4, 5);
+	Fraction B(3, 16, 20);
 	B.print();
 
 	//Fraction C = A * B;
@@ -339,7 +339,6 @@ void main()
 	A.reduce();
 	A.print();
 #endif //reducing check;
-
 
 }
 
