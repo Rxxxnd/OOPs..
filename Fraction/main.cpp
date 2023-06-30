@@ -92,7 +92,7 @@ public:
 	{
 		return *this = *this *other;
 	}
-	Fraction& operator/=(const Fraction& other)
+	Fraction& operator /= (const Fraction& other)
 	{
 		return *this = *this / other;
 	}
@@ -106,23 +106,23 @@ public:
 		this->integer -= other.integer;
 		return *this;
 	}
-	Fraction& operator ++() //pref++;
+	Fraction& operator ++ () //pref++;
 	{
 		integer++;
 		return*this;
 	}
-	Fraction operator ++(int) //post--;
+	Fraction operator ++ (int) //post--;
 	{
 		Fraction old = *this;
 		integer++;
 		return old;
 	}
-	Fraction& operator --() // pref--;
+	Fraction& operator -- () // pref--;
 	{
 		--integer;
 		return *this;
 	}
-	Fraction operator --(int) // post++;
+	Fraction operator -- (int) // post++;
 	{
 		Fraction old = *this;
 		integer--;
