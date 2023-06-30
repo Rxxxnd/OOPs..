@@ -5,10 +5,12 @@ Fraction operator * (Fraction left, Fraction right);
 Fraction operator / (const Fraction& left, const Fraction& right);
 Fraction operator + (const Fraction& left, const Fraction& right);
 Fraction operator - (const Fraction& left, const Fraction& right);
-bool operator == (Fraction left, Fraction right);
-bool operator != (const Fraction left, const Fraction right);
 bool operator > (Fraction left, Fraction right);
 bool operator < (Fraction left, Fraction right);
+bool operator == (Fraction left, Fraction right);
+bool operator != (const Fraction left, const Fraction right);
+bool operator >= (const Fraction& left, const Fraction& right);
+bool operator <= (const Fraction& left, const Fraction& right);
 
 class Fraction
 {
@@ -283,8 +285,21 @@ bool operator <= (const Fraction& left, const Fraction& right)
 	return !(left > right); 
 }
 
+std::ostream& operator<<(std::ostream& os, const Fraction& obj)
+{
+	if (obj.get_integer())os << obj.get_integer();
+	if (obj.get_numerator())
+	{
+		if(obj.get_integer()) os << "(";
+		os << obj.get_numerator() << "/" << obj.get_denominator();
+		if(obj.get_integer())os << ")";
+	}
+	else if(obj.get_integer() == 0)os << 0;
+		return os;
+}
+
 //#define CONSTRUCTORS_CHECK
-#define ARITHMETICAL_OPERATORS_CHECK
+//#define ARITHMETICAL_OPERATORS_CHECK
 //#define COMPARISON_OPERATORS_CHECK
 //#define REDUCING_CHECK
 
@@ -339,6 +354,11 @@ void main()
 	A.reduce();
 	A.print();
 #endif //reducing check;
+
+	Fraction A(5, 10);
+	std::cout << A << std::endl;
+	A.reduce();
+	std::cout << A << std::endl;
 
 }
 
