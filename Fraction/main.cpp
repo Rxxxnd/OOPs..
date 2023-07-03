@@ -1,4 +1,6 @@
-﻿#include <iostream>
+﻿#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+
 
 class Fraction;
 Fraction operator * (Fraction left, Fraction right);
@@ -192,6 +194,7 @@ public:
 		int less = numerator;
 		int more = denominator;
 		int rest;
+		if (less == 0) return *this;
 		do
 		{
 			rest = more % less;
@@ -249,7 +252,7 @@ Fraction operator - (const Fraction& left, const Fraction& right)
 		left.get_denominator() - right.get_denominator()
 	);
 }
-bool operator == (Fraction left, Fraction right)
+   bool operator == (Fraction left, Fraction right)
 {
 	left.to_improper();
 	right.to_improper();
@@ -259,33 +262,33 @@ bool operator == (Fraction left, Fraction right)
 		return false;*/
 	return left.get_numerator() * right.get_denominator() == right.get_numerator() * left.get_denominator();
 }
-bool operator != (const Fraction left, const Fraction right)
+   bool operator != (const Fraction left, const Fraction right)
 {
 	return !(left == right);
 }
-bool operator > (Fraction left, Fraction right)
+    bool operator > (Fraction left, Fraction right)
 {
 	left.to_improper();
 	right.to_improper();
 	return left.get_numerator() * right.get_denominator() > right.get_numerator() * right.get_denominator();
 }
-bool operator < (Fraction left, Fraction right)
+    bool operator < (Fraction left, Fraction right)
 {
 	left.to_improper();
 	right.to_improper();
 	return left.get_numerator() * right.get_denominator() <  right.get_numerator() * right.get_denominator();
 }
-bool operator >= (const Fraction& left, const Fraction& right)
+   bool operator >= (const Fraction& left, const Fraction& right)
 {
 	//return left > right || left == right;
 	return !(left < right); //better performance, 'cause operator "==" is not involved;
 }
-bool operator <= (const Fraction& left, const Fraction& right)
+   bool operator <= (const Fraction& left, const Fraction& right)
 {
 	return !(left > right); 
 }
 
-std::ostream& operator<<(std::ostream& os, const Fraction& obj)
+std::ostream& operator << (std::ostream& os, const Fraction& obj)
 {
 	if (obj.get_integer())os << obj.get_integer();
 	if (obj.get_numerator())
@@ -297,11 +300,44 @@ std::ostream& operator<<(std::ostream& os, const Fraction& obj)
 	else if(obj.get_integer() == 0)os << 0;
 		return os;
 }
+std::istream& operator >> (std::istream& is, Fraction& obj)
+{
+	/*int integer, numerator, denominator;
+	is >> integer >> numerator >> denominator;
+	obj.set_integer(integer);
+	obj.set_numerator(numerator);	
+	obj.set_denominator(denominator);*/	
+	const int SIZE = 256;
+	char buffer[SIZE] = {};
+	is >> buffer;
+	//is.getline(buffer, SIZE);
+	int number[3] = {};
+	int n = 0; // input numbers counter;
+	char delimiters[] = "()/ ";
+	for (char* pch = strtok(buffer, delimiters); pch; pch = strtok(NULL, delimiters))
+		number[n++] = std::atoi(pch); //atoi - ascii string to 'int'.  string -> integer number from
+	//for (int i = 0; i < n; i++) std::cout << number[i] << "\t"; std::cout << std::endl;
+	switch (n)
+	{
+	case 1: obj = Fraction(number[0]); break;
+	case 2: obj = Fraction(number[0], number[1]); break;
+		/*obj.set_numerator(number[0]);
+		obj.set_denominator(number[1]);*/		
+	case 3: obj = Fraction(number[0], number[1], number[2]);
+		/*obj.set_integer(number[0]);
+		obj.set_numerator(number[1]);
+		obj.set_denominator(number[2]);*/
+	}
+	return is;
+}
 
 //#define CONSTRUCTORS_CHECK
 //#define ARITHMETICAL_OPERATORS_CHECK
 //#define COMPARISON_OPERATORS_CHECK
 //#define REDUCING_CHECK
+//#define INPUT_CHECK
+//#define INPUT_CHECK_2
+//#define CONVERSION_CHECK
 
 void main()
 {
@@ -326,7 +362,8 @@ void main()
 	Fraction F; //assingment operator
 	F = D;
 	F.print();
-	#endif// Constructors check;
+#endif
+
 #ifdef ARITHMETICAL_OPERATORS_CHECK
 	Fraction A(2, 3, 4);
 	A.print();
@@ -342,24 +379,47 @@ void main()
 	A *= B;
 	A.print();
 
-#endif //Arithmetical operators check;
+#endif 
+
 #ifdef COMPARISON_OPERATORS_CHECK
 	Fraction A(1, 2);
 	Fraction B(5, 10);
 	std::cout << (A <= B) << std::endl;
-#endif //Comparison operations check;
+#endif 
+
 #ifdef REDUCING_CHECK
 	Fraction A(5, 10);
 	A.print();
 	A.reduce();
 	A.print();
-#endif //reducing check;
+#endif
 
-	Fraction A(5, 10);
+#ifdef INPUT_CHECK
+	Fraction A(5,10);
+	std::cout << "Enter your fraction: " << std::endl; std::cin >> A;
 	std::cout << A << std::endl;
 	A.reduce();
-	std::cout << A << std::endl;
+	std::cout << "Reduced: " << A << std::endl;
+#endif 
 
+#ifdef INPUT_CHECK_2
+	Fraction A, B, C;
+	std::cout << "Enter your fraction: "; std::cin >> A >> B >> C;
+	std::cout << A << "\t" << B << "\t" << C << std::endl;
+#endif 
+
+#ifdef CONVERSION_CHECK
+
+	int a = 2;         // No conversions;
+	double b = 3;      // Conversion  less => more;
+	int c = b;         // Conversion  more => less w/out data loss;
+	int d = 5.7;       // Conversion  more => less w/ data loss;
+	//int e = "Hello"; // Types are not compatible; 
+
+	std::cout << 7. / 2 << std::endl; // Implicit conversion less => more. 
+    //In this case '2' - was covertly converted from 'int' to a 'double', bc of '7' with '. ', means that '7' starts to be 'double' after adding the ".";
+
+#endif 
 }
 
 // The "," operator allows to write several expressions in the place where one expression is expected;
