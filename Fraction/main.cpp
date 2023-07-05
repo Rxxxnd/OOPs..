@@ -1,6 +1,6 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-
+#define delimiter "\n--------------------------------\n"
 
 class Fraction;
 Fraction operator * (Fraction left, Fraction right);
@@ -56,13 +56,24 @@ public:
 		this->denominator = 1;
 		std::cout << " + Default Constructor: " << this << std::endl;
 	}
-	Fraction(int integer)
+	explicit Fraction(int integer) // explicit - forbidding the implicit conversion
 	{
 		this->integer = integer;
 		this->numerator = 0;
 		this->denominator = 1;
 		std::cout << " + Single-arg constructor: "<< this << std::endl;
 	}
+	Fraction(double decimal)
+	{
+		decimal += 1e-10;  // 1*10^-10 
+		integer = decimal;
+		decimal -= integer;
+		denominator = 1e+9; // 1 * 10^9
+		numerator = decimal * denominator; 
+		reduce();
+		std::cout << " + Single-arg constructor: " << this << std::endl;
+	}
+
 	Fraction(int numerator, int denominator)
 	{
 		this->integer = 0;
@@ -152,6 +163,16 @@ public:
 		return old;
 	}
 
+//========= type-cast operators =======
+	explicit operator int()
+	{
+		return integer;
+	}
+
+	explicit operator double()const
+	{
+		return integer + (double)numerator / denominator;
+	}
 //========== methods ============
 
 	void print()const
@@ -338,6 +359,9 @@ std::istream& operator >> (std::istream& is, Fraction& obj)
 //#define INPUT_CHECK
 //#define INPUT_CHECK_2
 //#define CONVERSION_CHECK
+//#define COVERSIONS_FROM_OTHER_2_CLASS_CHECK
+//#define COVERSIONS_FROM_CLASS_2_OTHER_CHECK
+
 
 void main()
 {
@@ -420,6 +444,44 @@ void main()
     //In this case '2' - was covertly converted from 'int' to a 'double', bc of '7' with '. ', means that '7' starts to be 'double' after adding the ".";
 
 #endif 
+
+#ifdef COVERSIONS_FROM_OTHER_2_CLASS_CHECK
+	Fraction A = (Fraction)5;  // Conversion from 'int' to 'Fraction'.  
+					 // Conversion from other to class;
+					 // Single-arg coonstructor;
+	std::cout << A << std::endl;
+	std::cout << delimiter << std::endl;
+	Fraction B;      //Default constructor;
+	std::cout << delimiter << std::endl;
+	B = Fraction(8);
+	std::cout << delimiter << std::endl;
+	std::cout << B << std::endl;
+
+	// Fraction C = 12; //explicit constructor cannot be called by assignment operator.
+	//Fraction C(12);     // proper explicit constructor calling.
+	//Fraction C{ 12 };   // or like 
+	//std::cout << C << std::endl;
+
+#endif
+
+#ifdef COVERSIONS_FROM_CLASS_2_OTHER_CHECK
+	Fraction A(2, 1, 2);
+	std::cout << A << std::endl;
+	int a = (int)A;
+	std::cout << a << std::endl;
+
+	Fraction B(2, 3, 4);
+	std::cout << B << std::endl;
+	double b = (double)B;
+	std::cout << b << std::endl;
+#endif
+
+	Fraction A = -2.77;
+	std::cout << A << std::endl;
+
+	Fraction B = -3.333;
+	std::cout << B << std::endl;
+
 }
 
 // The "," operator allows to write several expressions in the place where one expression is expected;
