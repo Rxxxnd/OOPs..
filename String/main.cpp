@@ -57,7 +57,6 @@ public:
 		return *this;
 	}
 
-
 	~String()
 	{
 		delete[] str;
@@ -70,7 +69,7 @@ public:
 		return str[i];
 	}
 
-	// ========== metords ==========
+	// ========== Metords ==========
 	
 	void print() const
 	{
