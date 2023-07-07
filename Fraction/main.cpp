@@ -476,10 +476,10 @@ void main()
 	std::cout << b << std::endl;
 #endif
 
-	Fraction A = -2.77;
+	Fraction A = 2.77;
 	std::cout << A << std::endl;
 
-	Fraction B = -3.333;
+	Fraction B = 3.333;
 	std::cout << B << std::endl;
 
 }
