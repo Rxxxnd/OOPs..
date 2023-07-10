@@ -1,6 +1,6 @@
 #include <iostream>
 
-#define delimiter "\n--------------------\n"
+#define delimiter "\n----------------------------------------------------------------------------\n"
 
 class String
 {
@@ -32,7 +32,7 @@ public:
 		this->size = strlen(str) + 1; // +1 bc of adding 0;
 		this->str = new char[size] {};
 		for (int i = 0; str[i]; i++) this->str[i] = str[i];
-		std::cout << " + Cinstructor:\t" << this << std::endl;
+		std::cout << " + Constructor:\t" << this << std::endl;
 	}
 	String(const String& other)
 	{
@@ -46,9 +46,7 @@ public:
 	String& operator = (const String& other)
 	{
 		if (this == &other)return *this;
-		/*int a = 2;
-		int b = 3;
-		a = b;*/
+		
 		delete[] this->str; //clearing the memory;
 		this->size = other.size;
 		this->str = new char[size] {};
@@ -56,11 +54,34 @@ public:
 		std::cout << " + Copy assignment:\t" << this << std::endl;
 		return *this;
 	}
+	String& operator=(String&& other)
+	{
+		if (this == &other) return *this;
+		delete[] this->str;
+		this->size = other.size;
+		this->str = other.str;
+
+		other.size = 0;
+		other.str = nullptr;
+		std::cout << " + MoveAssignment:\t" << this << std::endl;
+		return *this;
+	
+	}
+
+	String(String&& other) //&& - r-value reference;
+	{
+		//Shallow copy;
+		this->size = other.size;
+		this->str = other.str;
+		std::cout << " + MoveConstructor:\t" << this << std::endl;
+		other.size = 0;
+		other.str = 0;
+	}
 
 	~String()
 	{
 		delete[] str;
-		std::cout << " - Destructor: " << this << std::endl;
+		std::cout << " - Destructor:\t\t" << this << std::endl;
 	}
 	// ========== Operators ==========
 	
@@ -106,12 +127,16 @@ void main()
 	std::cout << delimiter << std::endl;
 	String str2 = "World";
 	std::cout << str2 << std::endl;
+
 	std::cout << delimiter << std::endl;
-	String str3 = str1 + " " + str2;
+
+	String str3 = str1 + str2;
 	std::cout << str3 << std::endl;
+
 	std::cout << delimiter << std::endl;
+
 	String str4;
-	str4 = str1 + " " + str2;
+	str4 = str1 + str2;
 	std::cout << str4 << std::endl;
 
 }
