@@ -65,7 +65,6 @@ public:
 		other.str = nullptr;
 		std::cout << " + MoveAssignment:\t" << this << std::endl;
 		return *this;
-	
 	}
 
 	String(String&& other) //&& - r-value reference;
@@ -84,12 +83,11 @@ public:
 		std::cout << " - Destructor:\t\t" << this << std::endl;
 	}
 	// ========== Operators ==========
-	
+
 	char& operator[](int i)const
 	{
 		return str[i];
 	}
-
 	// ========== Metords ==========
 	
 	void print() const
@@ -124,7 +122,9 @@ void main()
 	String str1 = "Hello";
 	str1 = str1;
 	std::cout << str1 << std::endl;
+
 	std::cout << delimiter << std::endl;
+
 	String str2 = "World";
 	std::cout << str2 << std::endl;
 
@@ -134,7 +134,6 @@ void main()
 	std::cout << str3 << std::endl;
 
 	std::cout << delimiter << std::endl;
-
 	String str4;
 	str4 = str1 + str2;
 	std::cout << str4 << std::endl;
