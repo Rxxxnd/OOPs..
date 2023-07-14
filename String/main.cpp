@@ -22,7 +22,7 @@ public:
 	// ========== constructors ==========
 	explicit String(int size = 80) : size(size), str(new char[size] {})
 	{
-		std::cout << "+ Default constructor:  " << this << std::endl;
+		std::cout << " + Default constructor: " << this << std::endl;
 	}
 	String(const char* str) :String(strlen(str) + 1)
 	{
