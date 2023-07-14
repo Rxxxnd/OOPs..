@@ -7,80 +7,104 @@ class String
 	char* str;
 
 public:
-	int get_size()const
-	{
-		return size;
-	}
-	const char* get_str()const
-	{
-		return str;
-	}
-	char* get_str()
-	{
-		return str;
-	}
+	int get_size()const;
+	const char* get_str()const;
+	char* get_str();
 	// ========== constructors ==========
-	explicit String(int size = 80) : size(size), str(new char[size] {})
-	{
-		std::cout << " + Default constructor: " << this << std::endl;
-	}
-	String(const char* str) :String(strlen(str) + 1)
-	{
-		for (int i = 0; str[i]; i++) this->str[i] = str[i];
-		std::cout << " + Constructor: \t" << this << std::endl;
-	}
-	String(const String& other) :String(other.str)
-	{
-		//deep copy;
-		std::cout << " + Copy constructor:\t" << this << std::endl;
-	}
-	String& operator = (const String& other)
-	{
-		if (this == &other)return *this;
-		delete[] this->str; //cleaning the memory;
-		this->size = other.size;
-		this->str = new char[size] {};
-		for (int i = 0; i < size; i++) this->str[i] = other.str[i];
-		std::cout << " + Copy assignment:\t" << this << std::endl;
-		return *this;
-	}
-	String(String&& other) :size(other.size), str(other.str) //&& - r value reference;
-	{
-		//Shallow copy;
-		//this->size = other.size; // == : size(other.size);
-		//this->str = other.str;   // == str(other.str);
-		std::cout << " + Move constructor:\t" << this << std::endl;
-		other.size = 0;
-		other.str = 0;
-	}
-	~String()
-	{
-		delete[] str;
-		std::cout << " ~ Destructor:\t\t" << this << std::endl;
-	}
+	explicit String(int size = 80);
+	String(const char* str);
+	String(const String& other);
+	String& operator = (const String& other);
+	String(String&& other);
+	~String();
 // ========== operators ==========
-	String& operator =(String&& other)
-	{
-		if (this == &other) return *this;
-		delete[] this->str;
-		this->size = other.size;
-		this->str = other.str;
-		other.size = 0;
-		other.str = nullptr;
-		std::cout << " + Move assingment:\t" << this << std::endl;
-		return *this;
-	}
-	char& operator[](int i) const
-	{
-		return str[i];
-	}
+	String& operator =(String&& other);
+	char& operator[](int i) const;
 // ========== methods ==========
-	void print() const
-	{
-		std::cout << " Size: \t" << this << std::endl;
-		std::cout << " Str: \t" << str << std::endl;
-	}
+	void print() const;
 };
+
+//==================================================================================
+
+// :: - scope operator 
+// Scope::name
+// namespace::name
+
+int String::get_size()const
+{
+	return size;
+}
+const char* String::get_str()const
+{
+	return str;
+}
+char* String::get_str()
+{
+	return str;
+}
+// ========== constructors ==========
+
+String::String(int size) :size(size), str(new char[size] {}) // 'explicit' can use only in class;
+{
+	std::cout << " + Default constructor: " << this << std::endl;
+}
+String::String(const char* str) :String(strlen(str) + 1)
+{
+	for (int i = 0; str[i]; i++) this->str[i] = str[i];
+	std::cout << " + Constructor: \t" << this << std::endl;
+}
+String::String(const String& other) :String(other.str)
+{
+	//deep copy;
+	std::cout << " + Copy constructor:\t" << this << std::endl;
+}
+String& String::operator = (const String& other)
+{
+	if (this == &other)return *this;
+	delete[] this->str; //cleaning the memory;
+	this->size = other.size;
+	this->str = new char[size] {};
+	for (int i = 0; i < size; i++) this->str[i] = other.str[i];
+	std::cout << " + Copy assignment:\t" << this << std::endl;
+	return *this;
+}
+String::String(String&& other) :size(other.size), str(other.str) //&& - r value reference;
+{
+	//Shallow copy;
+	//this->size = other.size; // == : size(other.size);
+	//this->str = other.str;   // == str(other.str);
+	std::cout << " + Move constructor:\t" << this << std::endl;
+	other.size = 0;
+	other.str = 0;
+}
+String::~String()
+{
+	delete[] str;
+	std::cout << " ~ Destructor:\t\t" << this << std::endl;
+}
+// ========== operators ==========
+
+String& String::operator =(String&& other)
+{
+	if (this == &other) return *this;
+	delete[] this->str;
+	this->size = other.size;
+	this->str = other.str;
+	other.size = 0;
+	other.str = nullptr;
+	std::cout << " + Move assingment:\t" << this << std::endl;
+	return *this;
+}
+char& String::operator[](int i) const
+{
+	return str[i];
+}
+// ========== methods ==========
+void String::print() const
+{
+	std::cout << " Size: \t" << this << std::endl;
+	std::cout << " Str: \t" << str << std::endl;
+}
 	String operator + (const String& left, const String& right)
 	{
 		String cat(left.get_size() + right.get_size() - 1);
@@ -92,12 +116,13 @@ public:
 		//cat.get_str()[i + left.get_size() - 1] = right.get_str()[i];
 		return cat;
 	}
+
 	std::ostream& operator << (std::ostream& os, const String& obj)
 	{
 		return os << obj.get_str();
 	}
-#define BASE_CHECK
-#define CALLING_CONSTRUCTORS
+//#define BASE_CHECK
+//#define CALLING_CONSTRUCTORS
 
 	void main()
 	{
